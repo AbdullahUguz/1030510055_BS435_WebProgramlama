@@ -1,6 +1,7 @@
 package com.uguz.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,14 @@ public class User {
     private Long id;
 
     @Column
+    @NotNull
     private String userName;
 
     @Column
+    @NotNull
     private String password;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.REMOVE,CascadeType.MERGE})
     private List<Post> posts=new ArrayList<Post>();
 
     @OneToOne(fetch = FetchType.EAGER)

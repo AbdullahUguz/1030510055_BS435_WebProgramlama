@@ -13,8 +13,6 @@ public class Comment {
     @Column(name="contentOfComment")
     private String contentOfComment;
 
-    //,cascade = {CascadeType.PERSIST,CascadeType.REMOVE,CascadeType.MERGE}
-
     @ManyToOne(fetch =FetchType.EAGER)
     @JoinColumn(name ="postId")
     private Post post;

@@ -13,8 +13,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class InsertTest {
 
@@ -33,12 +34,14 @@ public class InsertTest {
         factory.close();
     }
 
-    private boolean persistInATransaction(Object obj) {
+    private boolean persistInATransaction(Object... obj) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
         try {
-            em.persist(obj);
+            for(Object o : obj) {
+                em.persist(o);
+            }
             tx.commit();
         } catch (Exception e) {
             System.out.println("FAILED TRANSACTION: " + e.toString());
@@ -82,5 +85,44 @@ public class InsertTest {
         boolean persisted = persistInATransaction(comment1);
         assertTrue(persisted);
     }
+
+    @Test
+    public void testPostPass(){
+
+        User user = new User();
+
+        Post post = new Post();
+        user.getPosts().add(post);
+
+        assertTrue(persistInATransaction(user, post));
+    }
+
+    @Test
+    public void testCommentPass(){
+
+        Post post = new Post();
+
+        Comment comment = new Comment();
+        post.getComments().add(comment);
+
+        assertTrue(persistInATransaction(post, post));
+    }
+
+    @Test
+    public void testUserWithRole(){
+
+        Role role = new Role();
+        assertTrue(persistInATransaction(role));
+
+        //henuz user tanimlanmadigi icin null olmalidir
+        assertNull(role.getUser());
+
+        User user = new User();
+        user.setRole(role);
+        role.setUser(user);
+
+        assertTrue(persistInATransaction(user));
+    }
+
 
 }

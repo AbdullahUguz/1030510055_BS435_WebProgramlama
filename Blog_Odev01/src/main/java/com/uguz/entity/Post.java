@@ -22,7 +22,7 @@ public class Post {
     @JoinColumn(name ="userId")
     private User user;
 
-    @OneToMany(mappedBy = "post",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post",fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.REMOVE,CascadeType.MERGE})
     private List<Comment> comments=new ArrayList<Comment>();
 
     public Long getId() {
