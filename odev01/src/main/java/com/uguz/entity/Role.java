@@ -10,7 +10,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "roleType")
+    @Column(name = "roletype")
     private String roleType;
 
     @OneToOne(mappedBy ="role",fetch = FetchType.EAGER)
