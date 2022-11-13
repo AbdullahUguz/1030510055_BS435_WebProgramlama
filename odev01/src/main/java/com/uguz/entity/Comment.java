@@ -28,6 +28,7 @@ public class Comment {
 //        this.id = id;
 //    }
 
+
     public String getContentOfComment() {
         return contentOfComment;
     }
